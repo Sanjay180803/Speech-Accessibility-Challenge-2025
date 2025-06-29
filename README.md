@@ -39,13 +39,14 @@ This project sets up a virtual environment and runs a Python script for speech r
 
 2. **Run the Bash Script**
    - Open your terminal in the project directory.
-   - Modify necessary changes in the TODO sections of `run.sh`.
+   - Modify necessary changes in the "Paths to pass as arguments" sections of `run.sh`.
+   - The same inference script and run.sh can be used for Wav2vec2 and HubertCPC
    - Execute:
      ```bash
      bash run.sh
      ```
 
 3. **Single File Inference**
-   - An additional inference script is provided in the repository to test predictions on single audio files.
+   - An additional inference script (test.py) is provided in the repository to test predictions on single audio files.
 
 ---
