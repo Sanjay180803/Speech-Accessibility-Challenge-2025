@@ -26,7 +26,7 @@ You can load the trained models directly from Hugging Face (https://huggingface.
 
 This project sets up a virtual environment and runs a Python script for speech recognition tasks. The setup is automated via a Bash script (`run.sh`).
 
-### ✅ Prerequisites
+### Prerequisites
 
 - Python 3.6 – 3.11
 - pip (Python package installer)
