@@ -2,7 +2,7 @@
 
 The **Speech Accessibility Challenge 2025**, organized by the University of Illinois Chicago and hosted on [EvalAI](https://eval.ai/), aimed to advance inclusive automatic speech recognition (ASR) systems by encouraging research on speech data from individuals with dysarthria.
 
-Participants were provided with the [UA Speech dataset](https://dialrcs.github.io/ua-speech-corpus/) and tasked with building robust ASR models capable of handling diverse speech patterns. We participated in the challenge and experimented with **four ASR models**:
+Participants were provided with the [UA Speech dataset](https://speechtechnology.web.illinois.edu/data/) and tasked with building robust ASR models capable of handling diverse speech patterns. We participated in the challenge and experimented with **four ASR models**:
 - Whisper Base (fine-tuned using Parameter-Efficient Fine-Tuning (PEFT) with Low-Rank Adaptation (LoRA) on a CPU),
 - Wav2Vec2 Base,
 - Whisper Medium,
