@@ -1,0 +1,68 @@
+import os
+import argparse
+from tqdm import tqdm
+from transformers import Wav2Vec2Processor, HubertForCTC, Wav2Vec2CTCTokenizer, Wav2Vec2FeatureExtractor
+import torchaudio
+import torch
+import pandas as pd
+
+
+parser = argparse.ArgumentParser(description="Inference Script for Wav2Vec2 Model")
+parser.add_argument("--metadata_path", type=str, required=True, help="Path to the metadata file (.csv or .tsv)")
+parser.add_argument("--model_path", type=str, required=True, help="Path to the pretrained Wav2Vec2 model")
+parser.add_argument("--output_path", type=str, required=True, help="Path to save the .hypo file")
+
+args = parser.parse_args()
+
+metadata_path = args.metadata_path
+model_path = args.model_path
+output_path = args.output_path
+
+
+tokenizer = Wav2Vec2CTCTokenizer.from_pretrained(model_path)
+feature_extractor = Wav2Vec2FeatureExtractor(
+    feature_size=1,
+    sampling_rate=16000,
+    padding_value=0.0,
+    do_normalize=True,
+    return_attention_mask=True
+)
+processor = Wav2Vec2Processor(feature_extractor=feature_extractor, tokenizer=tokenizer)
+model = HubertForCTC.from_pretrained(model_path).cuda()
+
+dataset = pd.read_csv(metadata_path, sep="\t" if metadata_path.endswith(".tsv") else ",")
+
+
+if dataset.shape[1] < 1:
+    raise ValueError("Metadata file must contain at least one column with audio file paths!")
+
+
+with open(output_path, "w") as fhypo:
+    for _, row in tqdm(dataset.iterrows(), total=len(dataset)):
+        audio_file = os.path.join("/taiga/data", row[0])
+
+        try:
+     
+            audio, sr = torchaudio.load(audio_file)
+            if sr != 16000:
+                audio = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)(audio)
+            if audio.ndimension() > 1:
+                audio = audio.mean(dim=0)
+
+            inputs = processor(audio, return_tensors="pt", sampling_rate=16000)
+            inputs = {k: v.cuda() for k, v in inputs.items()}
+
+            model.eval()
+            with torch.no_grad():
+                logits = model(**inputs).logits
+
+            pred_ids = torch.argmax(logits, dim=-1)
+            predicted_text = processor.batch_decode(pred_ids, skip_special_tokens=True)[0]
+
+
+            print(predicted_text.strip(), file=fhypo)
+
+            print(f"Predicted Text for {audio_file}: {predicted_text}")
+
+        except Exception as e:
+            print(f"Error processing {audio_file}: {e}")
