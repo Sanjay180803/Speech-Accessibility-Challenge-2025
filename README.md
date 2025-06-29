@@ -40,7 +40,7 @@ This project sets up a virtual environment and runs a Python script for speech r
 2. **Run the Bash Script**
    - Open your terminal in the project directory.
    - Modify necessary changes in the "Paths to pass as arguments" sections of `run.sh`.
-   - The same inference script and run.sh can be used for Wav2vec2 and HubertCPC
+   - The same inference script and run.sh can be used for Wav2vec2 and HubertCPC.
    - Execute:
      ```bash
      bash run.sh
