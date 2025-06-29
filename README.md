@@ -12,10 +12,10 @@ Participants were provided with the [UA Speech dataset](https://dialrcs.github.i
 
 | Model             | WER (%) | SemScore |
 |-------------------|---------|----------|
-| Whisper Base LoRA | 32.11   | 71.72    |
-| Wav2Vec2 Base     | 35.6    | 63.60    |
-| Whisper Medium    | 36.2    | 61.78    |
-| HuBert CTC        | 33.6    | 69.07    |
+| Whisper Base LoRA |  32.11  |   71.72  |
+| Wav2Vec2 Base     |  35.63  |   63.60  |
+| Whisper Medium    |  36.29  |   61.78  |
+| HuBert CTC        |  33.60  |   69.07  |
 
 
 ## Model Checkpoints
